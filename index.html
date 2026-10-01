@@ -1,35 +1,2024 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyMaster30 — 30-Day Python Challenge | From Zero to Hero</title>
-  <meta name="description" content="Master Python in 30 days with interactive lessons, live code editor, quizzes, and real-world projects. A comprehensive learning platform for beginners to advanced programmers." />
-  <meta name="keywords" content="Python, learn Python, 30 day challenge, programming, coding, tutorial, beginner, advanced" />
-  <meta name="author" content="PyMaster30" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyEnglish: Independent Python & English Learning Hub</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"Fira Code"', 'monospace'],
+                    },
+                    colors: {
+                        pyblue: '#2563EB',
+                        pyyellow: '#F59E0B',
+                        engpurple: '#7C3AED',
+                        engrose: '#E11D48',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .view-panel { display: none; animation: fadeIn 0.25s ease-out; }
+        .view-panel.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        .code-editor { tab-size: 4; }
+    </style>
 </head>
-<body>
-  <div id="app">
-    <!-- Navigation -->
-    <nav id="main-nav" class="navbar"></nav>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Global Header -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Brand -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('dashboard')">
+                <div class="flex items-center -space-x-1.5">
+                    <div class="w-9 h-9 rounded-xl bg-blue-600 text-amber-300 flex items-center justify-center font-bold shadow-md shadow-blue-500/20">
+                        <i class="fa-brands fa-python text-lg"></i>
+                    </div>
+                    <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold shadow-md shadow-purple-500/20">
+                        <i class="fa-solid fa-graduation-cap text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-extrabold text-base tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
+                        PyEnglish Hub
+                    </div>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Separate Tracks • One Platform</span>
+                </div>
+            </div>
+
+            <!-- Global View Navigation -->
+            <nav class="hidden lg:flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl">
+                <button onclick="switchMainTab('dashboard')" id="nav-dashboard" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm">
+                    <i class="fa-solid fa-chart-pie mr-1.5 text-blue-500"></i>Dashboard
+                </button>
+                <button onclick="switchMainTab('python-track')" id="nav-python-track" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-blue-600">
+                    <i class="fa-brands fa-python mr-1.5 text-blue-500"></i>Python 30 Days
+                </button>
+                <button onclick="switchMainTab('python-challenges')" id="nav-python-challenges" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-blue-600">
+                    <i class="fa-solid fa-cubes mr-1.5 text-amber-500"></i>Python Challenges
+                </button>
+                <button onclick="switchMainTab('english-track')" id="nav-english-track" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-purple-600">
+                    <i class="fa-solid fa-spell-check mr-1.5 text-purple-500"></i>English 30 Days
+                </button>
+                <button onclick="switchMainTab('english-challenges')" id="nav-english-challenges" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-purple-600">
+                    <i class="fa-solid fa-bullhorn mr-1.5 text-rose-500"></i>English Challenges
+                </button>
+                <button onclick="switchMainTab('english-resources')" id="nav-english-resources" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-emerald-600">
+                    <i class="fa-solid fa-book-atlas mr-1.5 text-emerald-500"></i>English Library
+                </button>
+                <button onclick="switchMainTab('compiler')" id="nav-compiler" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center text-slate-600 dark:text-slate-300 hover:text-cyan-600">
+                    <i class="fa-solid fa-terminal mr-1.5 text-cyan-500"></i>IDE & AI Tutor
+                </button>
+            </nav>
+
+            <!-- Controls & Profile -->
+            <div class="flex items-center space-x-2.5">
+                <button onclick="toggleDarkMode()" aria-label="Toggle theme" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <div id="auth-header-btn">
+                    <button onclick="openAuthModal()" class="px-3.5 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-sm transition">
+                        <i class="fa-solid fa-user mr-1.5"></i>Profile / Login
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-600 dark:text-slate-300 p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 space-y-1">
+            <button onclick="switchMainTab('dashboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-chart-pie w-6 text-blue-500"></i>Dashboard</button>
+            <button onclick="switchMainTab('python-track'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-brands fa-python w-6 text-blue-500"></i>Python 30-Day Track</button>
+            <button onclick="switchMainTab('python-challenges'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-cubes w-6 text-amber-500"></i>Python 5 Challenges & Projects</button>
+            <button onclick="switchMainTab('english-track'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-spell-check w-6 text-purple-500"></i>English 30-Day Track</button>
+            <button onclick="switchMainTab('english-challenges'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-bullhorn w-6 text-rose-500"></i>English 5 Challenges & Quizzer</button>
+            <button onclick="switchMainTab('english-resources'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-book-atlas w-6 text-emerald-500"></i>English Reference Library (99 Verbs, Tenses, Rules)</button>
+            <button onclick="switchMainTab('compiler'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800"><i class="fa-solid fa-terminal w-6 text-cyan-500"></i>IDE Compiler & Gemini Tutor</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================= VIEW 1: DASHBOARD OVERVIEW ================= -->
+        <div id="view-dashboard" class="view-panel active space-y-8">
+            
+            <!-- Hero Switcher Banner -->
+            <div class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl overflow-hidden">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold text-indigo-300">
+                        <i class="fa-solid fa-layer-group mr-1.5 text-amber-400"></i> Separate Study Mode
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                        Choose Your Focus: <span class="text-blue-400">Python</span> or <span class="text-purple-400">English</span>
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                        Track your progress individually with zero confusion. Dedicate time to writing robust code or mastering spoken and written English fluency at your own pace.
+                    </p>
+                    
+                    <!-- Fast Jump Track Buttons -->
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchMainTab('python-track')" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 font-bold text-white rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center text-sm">
+                            <i class="fa-brands fa-python mr-2 text-amber-300"></i> Open Python 30-Day Path
+                        </button>
+                        <button onclick="switchMainTab('english-track')" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 font-bold text-white rounded-xl shadow-lg shadow-purple-600/30 transition flex items-center text-sm">
+                            <i class="fa-solid fa-comment-dots mr-2 text-rose-300"></i> Open English 30-Day Path
+                        </button>
+                        <button onclick="switchMainTab('compiler')" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 font-semibold text-white rounded-xl transition flex items-center text-sm">
+                            <i class="fa-solid fa-code mr-2 text-cyan-400"></i> Open IDE & AI Tutor
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Separate Track Progress Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Python Independent Track Box -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border-2 border-blue-500/20 dark:border-blue-500/30 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl font-bold">
+                                <i class="fa-brands fa-python"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black text-slate-900 dark:text-white">Python Programming Track</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Zero to Hero • 30 Days & 5 Challenges</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300" id="dash-py-level">Novice Coder</span>
+                    </div>
+
+                    <!-- Python Progress Bar -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-600 dark:text-slate-300">Curriculum Progress</span>
+                            <span class="text-blue-600 dark:text-blue-400"><span id="dash-py-done">0</span> / 30 Days (<span id="dash-py-pct">0%</span>)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                            <div id="dash-py-bar" class="bg-blue-600 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
+                        <div>
+                            <span class="text-slate-400 block font-medium">Python XP:</span>
+                            <span class="text-base font-black text-slate-800 dark:text-white" id="dash-py-xp">0 XP</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block font-medium">Next Topic:</span>
+                            <span class="font-bold text-blue-600 dark:text-blue-400 truncate block" id="dash-py-next">Day 1: Intro to Python</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 flex space-x-2">
+                        <button onclick="switchMainTab('python-track')" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition text-center">
+                            Practice Python Now
+                        </button>
+                        <button onclick="switchMainTab('python-challenges')" class="px-4 py-2.5 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-bold rounded-xl text-xs hover:bg-blue-100 dark:hover:bg-slate-700 transition">
+                            5 Python Challenges
+                        </button>
+                    </div>
+                </div>
+
+                <!-- English Independent Track Box -->
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border-2 border-purple-500/20 dark:border-purple-500/30 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center text-2xl font-bold">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black text-slate-900 dark:text-white">English Fluency Track</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Speaking & Vocabulary • 30 Days & Library</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300" id="dash-eng-level">Beginner Speaker</span>
+                    </div>
+
+                    <!-- English Progress Bar -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-600 dark:text-slate-300">Curriculum Progress</span>
+                            <span class="text-purple-600 dark:text-purple-400"><span id="dash-eng-done">0</span> / 30 Days (<span id="dash-eng-pct">0%</span>)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                            <div id="dash-eng-bar" class="bg-purple-600 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
+                        <div>
+                            <span class="text-slate-400 block font-medium">English XP:</span>
+                            <span class="text-base font-black text-slate-800 dark:text-white" id="dash-eng-xp">0 XP</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block font-medium">Next Milestone:</span>
+                            <span class="font-bold text-purple-600 dark:text-purple-400 truncate block" id="dash-eng-next">Day 1: Learn 10 Words</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 flex space-x-2">
+                        <button onclick="switchMainTab('english-track')" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition text-center">
+                            Practice English Now
+                        </button>
+                        <button onclick="switchMainTab('english-resources')" class="px-4 py-2.5 bg-purple-50 dark:bg-slate-800 text-purple-600 dark:text-purple-400 font-bold rounded-xl text-xs hover:bg-purple-100 dark:hover:bg-slate-700 transition">
+                            99 Verbs & Tenses
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Daily Routine Workflow Tips -->
+            <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-base font-black text-slate-900 dark:text-white flex items-center mb-4">
+                    <i class="fa-solid fa-compass text-indigo-500 mr-2"></i> How to Maximize Your Results
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                        <span class="font-extrabold text-blue-600 dark:text-blue-400 text-sm block mb-1">1. Separate Sessions</span>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Spend 45 minutes on Python logic in the morning, and 30 minutes on English speaking/shadowing in the evening.</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                        <span class="font-extrabold text-indigo-600 dark:text-indigo-400 text-sm block mb-1">2. Run Every Code</span>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Never just read Python code. Click "Open in IDE" to run, modify, and test edge cases yourself.</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                        <span class="font-extrabold text-purple-600 dark:text-purple-400 text-sm block mb-1">3. Speak Aloud</span>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Use the built-in speaker button in English lessons and repeat sentences aloud to train muscle memory.</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                        <span class="font-extrabold text-emerald-600 dark:text-emerald-400 text-sm block mb-1">4. Challenge Mode</span>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Complete all 5 distinct challenge categories in each discipline to graduate from beginner to confident developer.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= VIEW 2: PURE PYTHON 30-DAY TRACK ================= -->
+        <div id="view-python-track" class="view-panel space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-bold mb-2">
+                        <i class="fa-brands fa-python"></i>
+                        <span>Dedicated Track</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                        30-Day Python Challenge: Zero to Hero
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Follow the structured daily curriculum from variables and loops to OOP, JSON, and Web Scraping.
+                    </p>
+                </div>
+
+                <!-- Python Track Filters -->
+                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl self-start md:self-center">
+                    <button onclick="filterPythonDays('all')" id="py-filt-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm transition">All 30 Days</button>
+                    <button onclick="filterPythonDays('uncompleted')" id="py-filt-uncompleted" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 transition">Pending</button>
+                    <button onclick="filterPythonDays('completed')" id="py-filt-completed" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 transition">Completed</button>
+                </div>
+            </div>
+
+            <!-- Python Days Grid Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="py-curriculum-container">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 3: PYTHON 5 CHALLENGES & MINI PROJECTS ================= -->
+        <div id="view-python-challenges" class="view-panel space-y-6">
+            <div>
+                <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-wider">
+                    Post-Curriculum Mastery
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">
+                    5 Python Challenge Categories & Mini Projects
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Deepen your programming logic through 5 dedicated disciplines, plus full starter code for the Day 27–29 projects.
+                </p>
+            </div>
+
+            <!-- Category Selector Tabs -->
+            <div class="flex space-x-2 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800" id="py-challenge-tabs">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Active Category Content Card -->
+            <div id="py-challenge-content" class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm min-h-[420px]">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 4: PURE ENGLISH 30-DAY TRACK ================= -->
+        <div id="view-english-track" class="view-panel space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-xs font-bold mb-2">
+                        <i class="fa-solid fa-language"></i>
+                        <span>Dedicated Track</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                        30-Day English Improvement Track
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Build your daily vocabulary, master phrasal verbs, idioms, sentence structures, and speaking confidence.
+                    </p>
+                </div>
+
+                <!-- English Track Filters -->
+                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl self-start md:self-center">
+                    <button onclick="filterEnglishDays('all')" id="eng-filt-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-purple-600 dark:text-white shadow-sm transition">All 30 Days</button>
+                    <button onclick="filterEnglishDays('uncompleted')" id="eng-filt-uncompleted" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 transition">Pending</button>
+                    <button onclick="filterEnglishDays('completed')" id="eng-filt-completed" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 transition">Completed</button>
+                </div>
+            </div>
+
+            <!-- English Days Grid Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="eng-curriculum-container">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 5: ENGLISH 5 CHALLENGES & DRILLS ================= -->
+        <div id="view-english-challenges" class="view-panel space-y-6">
+            <div>
+                <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-wider">
+                    Fluency Acceleration
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">
+                    5 English Challenge Disciplines & Interactive Tools
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Practice Speaking, Listening, Grammar, Professional Writing, and Technical Reading with built-in voice audio.
+                </p>
+            </div>
+
+            <!-- Category Selector Tabs -->
+            <div class="flex space-x-2 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800" id="eng-challenge-tabs">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Active English Challenge Display Card -->
+            <div id="eng-challenge-content" class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm min-h-[420px]">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 6: COMPREHENSIVE ENGLISH REFERENCE LIBRARY ================= -->
+        <div id="view-english-resources" class="view-panel space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                        English Reference Vault
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        High-frequency cheat sheets: 99 Verbs (V1/V2/V3), 100 Sentences, 14 Tenses Matrix, and Grammar Rules.
+                    </p>
+                </div>
+
+                <!-- Vault Resource Tabs -->
+                <div class="flex flex-wrap gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl">
+                    <button onclick="switchResourceTab('verbs')" id="res-tab-verbs" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-700 text-purple-600 dark:text-white shadow-sm">
+                        <i class="fa-solid fa-list-check mr-1.5"></i>99 Verbs (V1-V2-V3)
+                    </button>
+                    <button onclick="switchResourceTab('sentences')" id="res-tab-sentences" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-purple-600">
+                        <i class="fa-solid fa-comments mr-1.5"></i>100 Daily Sentences
+                    </button>
+                    <button onclick="switchResourceTab('tenses')" id="res-tab-tenses" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-purple-600">
+                        <i class="fa-solid fa-clock mr-1.5"></i>14 Tenses Matrix
+                    </button>
+                    <button onclick="switchResourceTab('rules')" id="res-tab-rules" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-purple-600">
+                        <i class="fa-solid fa-scale-balanced mr-1.5"></i>Subject-Verb Rules
+                    </button>
+                    <button onclick="switchResourceTab('intro')" id="res-tab-intro" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-purple-600">
+                        <i class="fa-solid fa-id-badge mr-1.5"></i>12 Intro Words
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="resource-search" oninput="handleResourceSearch()" placeholder="Search any verb, daily phrase, tense formula, or grammar rule..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+            </div>
+
+            <!-- Vault Content Box -->
+            <div id="resource-vault-content" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 7: LIVE COMPILER & AI TUTOR ================= -->
+        <div id="view-compiler" class="view-panel space-y-4 h-[calc(100vh-140px)] flex flex-col">
+            
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center">
+                        <i class="fa-solid fa-terminal text-cyan-500 mr-2"></i> Python Live Editor & Gemini Coach
+                    </h2>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        <button onclick="toggleIdeMode('editor')" id="btn-ide-editor" class="px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition">
+                            <i class="fa-solid fa-code mr-1.5"></i> Code Runner
+                        </button>
+                        <button onclick="toggleIdeMode('tutor')" id="btn-ide-tutor" class="px-3 py-1 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-300 transition flex items-center">
+                            <i class="fa-solid fa-robot text-purple-500 mr-1.5"></i> AI Tutor
+                        </button>
+                    </div>
+
+                    <button onclick="speakConsoleOutput()" title="Read terminal output out loud" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition">
+                        <i class="fa-solid fa-volume-high text-indigo-500 mr-1"></i> Speak
+                    </button>
+                </div>
+            </div>
+
+            <!-- Workspace: Code & Console -->
+            <div id="ide-workspace-split" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 overflow-hidden">
+                <!-- Code Area -->
+                <div class="bg-slate-950 rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-lg">
+                    <div class="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
+                        <span class="text-xs font-mono font-bold text-slate-300 flex items-center">
+                            <i class="fa-brands fa-python text-amber-400 mr-2"></i> main.py
+                        </span>
+                        <div class="flex space-x-2">
+                            <button onclick="reviewCodeWithGemini()" id="btn-ai-review" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 flex items-center">
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-400 mr-1"></i> AI Review
+                            </button>
+                            <button onclick="executePythonCode()" class="px-4 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs transition flex items-center shadow-md">
+                                <i class="fa-solid fa-play mr-1.5"></i> Run
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="live-code-input" class="code-editor flex-1 bg-slate-950 text-slate-100 p-4 font-mono text-xs sm:text-sm resize-none outline-none leading-relaxed border-none" spellcheck="false"># Welcome to the PyEnglish Live Playground!
+# Write your Python code below and click 'Run'.
+
+def greet_developer(name):
+    """Returns an encouraging message for aspiring engineers."""
+    return f"Welcome {name}! Ready to master Python today?"
+
+tasks = ["Review Variables", "Solve Algorithmic Problem", "Read English Documentation"]
+
+print(greet_developer("Pythonista"))
+print("\nYour Daily Milestones:")
+for i, task in enumerate(tasks, 1):
+    print(f" {i}. [✓] {task}")
+</textarea>
+                </div>
+
+                <!-- Output Area -->
+                <div class="bg-slate-950 rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-lg">
+                    <div class="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
+                        <span class="text-xs font-mono font-bold text-slate-400 flex items-center">
+                            <i class="fa-solid fa-terminal text-cyan-400 mr-2"></i> TERMINAL OUTPUT
+                        </span>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <button onclick="copyTerminal()" class="text-slate-400 hover:text-white p-1" title="Copy"><i class="fa-regular fa-copy"></i></button>
+                            <button onclick="clearTerminal()" class="text-slate-400 hover:text-white p-1" title="Clear"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                    <div id="live-terminal-out" class="flex-1 p-4 font-mono text-xs sm:text-sm text-slate-300 overflow-y-auto whitespace-pre-wrap leading-relaxed">
+                        <div class="text-slate-500">>>> Python interpreter initialized. Click 'Run' to execute code.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workspace: AI Tutor Chat -->
+            <div id="ide-workspace-tutor" class="hidden flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col shadow-lg">
+                <div class="bg-slate-50 dark:bg-slate-800/60 px-6 py-3 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-robot text-xs"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Gemini AI Tutor</h4>
+                            <p class="text-[10px] text-slate-400">Ask about Python debugging or English sentence phrasing</p>
+                        </div>
+                    </div>
+                    <button onclick="clearTutorChat()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white">Reset Chat</button>
+                </div>
+
+                <div id="tutor-chat-box" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/50 dark:bg-slate-950/40">
+                    <div class="flex items-start space-x-2">
+                        <div class="w-7 h-7 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-xs sm:text-sm text-slate-700 dark:text-slate-200 shadow-sm border border-slate-200 dark:border-slate-700 max-w-[85%]">
+                            Hello! I am your AI learning assistant. You can ask me to:
+                            <ul class="list-disc ml-4 mt-1 space-y-0.5 text-xs text-slate-500 dark:text-slate-400">
+                                <li>Explain complex Python topics (e.g. decorators, list comprehensions, recursion)</li>
+                                <li>Help debug any error traceback you encounter</li>
+                                <li>Practice English sentences using the 99 Verbs or 14 Tenses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center space-x-2">
+                    <input type="text" id="tutor-prompt-input" onkeydown="if(event.key==='Enter') sendTutorMessage()" placeholder="Type a Python or English question..." class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 outline-none">
+                    <button onclick="sendTutorMessage()" class="w-9 h-9 bg-purple-600 hover:bg-purple-700 text-white rounded-xl flex items-center justify-center transition">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Lesson Detail Modal (Used for both Python & English individually) -->
+    <div id="lesson-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/40">
+                <div class="flex items-center space-x-3">
+                    <span id="modal-track-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase">Track</span>
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white" id="modal-lesson-title">Lesson Title</h3>
+                </div>
+                <button onclick="closeLessonModal()" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-white transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 space-y-4" id="modal-lesson-body">
+                <!-- Populated dynamically -->
+            </div>
+
+            <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 flex items-center justify-between" id="modal-lesson-footer">
+                <!-- Action buttons -->
+            </div>
+
+        </div>
+    </div>
 
     <!-- Auth Modal -->
-    <div id="auth-modal" class="modal-overlay hidden"></div>
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 dark:border-slate-800 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 mx-auto flex items-center justify-center text-white text-xl shadow-lg mb-2">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Learner Account</h3>
+                <p class="text-xs text-slate-400 mt-1">Independent tracking for both your Python & English journeys</p>
+            </div>
 
-    <!-- Main Content -->
-    <main id="main-content"></main>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Your Name</label>
+                    <input type="text" id="auth-user-name" placeholder="e.g. Alex" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <button onclick="saveUserProfile()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition">
+                    Save Profile
+                </button>
+                <div class="text-center text-[11px] text-slate-400">or</div>
+                <button onclick="simulateGoogleLogin()" class="w-full py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 font-bold rounded-xl text-xs transition flex items-center justify-center space-x-2">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    <span>Sign In With Google</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Footer -->
-    <footer id="main-footer" class="footer"></footer>
+    <!-- Toast Notification -->
+    <div id="toast-notif" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center space-x-2.5 text-xs font-semibold" id="toast-msg">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Action completed</span>
+        </div>
+    </div>
 
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container"></div>
-  </div>
+    <script>
+        /* ================= DATA SETS ================= */
+        
+        // 30 Days Python Curriculum
+        const pythonDaysData = [
+            {
+                day: 1, title: "Introduction to Python",
+                desc: "What is Python, setup IDLE/VS Code, writing first program with print(), and understanding comments.",
+                code: '# Day 1: First Program\nprint("Hello World! Welcome to Python.")\n# Python is readable, clean, and elegant!',
+                video: "Corey Schafer: Python Beginner 1",
+                url: "https://www.youtube.com/watch?v=YYXdXT2l-Gg"
+            },
+            {
+                day: 2, title: "Variables & Data Types",
+                desc: "Rules for naming variables. Numeric types (int, float), strings, booleans, and type conversion.",
+                code: 'age = 24\nheight = 5.9\nname = "Developer"\nis_coding = True\nprint(f"{name} is {age} years old.")',
+                video: "Programming with Mosh: Python Variables",
+                url: "https://www.youtube.com/watch?v=kqtD5dpn9C8"
+            },
+            {
+                day: 3, title: "Input / Output & Formatting",
+                desc: "Reading user input with input(), casting types, and string formatting with modern f-strings.",
+                code: 'user_lang = "Python"\nprint(f"Mastering: {user_lang.upper()} today!")',
+                video: "Tech With Tim: Input & Output",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 4, title: "Operators & Expressions",
+                desc: "Arithmetic, assignment, comparison, logical (and, or, not), identity, and membership operators.",
+                code: 'score = 92\npassed = score >= 50 and score <= 100\nprint("Did pass?", passed)',
+                video: "Corey Schafer: Integers and Floats",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 5, title: "Conditional Statements",
+                desc: "if statement, if-else, if-elif-else ladders, and nested decision making.",
+                code: 'level = 7\nif level >= 10:\n    print("Expert")\nelif level >= 5:\n    print("Intermediate")\nelse:\n    print("Beginner")',
+                video: "Programming with Mosh: If Statements",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 6, title: "Loops (for, while, break, continue)",
+                desc: "Iterating with for loop in range(), while loop conditions, break, continue, and pass.",
+                code: 'for i in range(1, 6):\n    if i == 3:\n        continue\n    print(f"Step {i}")',
+                video: "Corey Schafer: Loops and Iterations",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 7, title: "Functions & Parameters",
+                desc: "Defining functions with def, positional and keyword arguments, default values, and return statements.",
+                code: 'def calculate_xp(lessons, bonus=50):\n    return (lessons * 100) + bonus\n\nprint("Earned XP:", calculate_xp(7))',
+                video: "Tech With Tim: Functions",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 8, title: "Lists & List Operations",
+                desc: "Creating lists, zero-based indexing, slicing, append(), insert(), pop(), and sorting.",
+                code: 'skills = ["Python", "Algorithms", "Git"]\nskills.append("Testing")\nprint("Selected:", skills[:2])',
+                video: "Corey Schafer: Lists, Tuples, and Sets",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 9, title: "Tuples & Immutability",
+                desc: "Creating immutable tuples, indexing, slicing, tuple packing, and multiple variable unpacking.",
+                code: 'coordinates = (1920, 1080)\nw, h = coordinates\nprint(f"Screen: {w}x{h}")',
+                video: "Programming with Mosh: Tuples",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 10, title: "Dictionaries (Key-Value Pairs)",
+                desc: "Creating dictionaries, accessing keys safely with get(), keys(), values(), items(), and updating items.",
+                code: 'user = {"name": "Jordan", "role": "Engineer"}\nprint(user.get("role", "Guest"))',
+                video: "Corey Schafer: Dictionaries",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 11, title: "Sets & Set Operations",
+                desc: "Unordered unique collections. Union (|), intersection (&), difference (-), and symmetric difference.",
+                code: 'stack_a = {"Python", "SQL", "Docker"}\nstack_b = {"Python", "React", "AWS"}\nprint("Common:", stack_a & stack_b)',
+                video: "Tech With Tim: Sets in Python",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 12, title: "Strings & String Methods",
+                desc: "String indexing, slicing, lower(), upper(), strip(), split(), join(), and find().",
+                code: 'words = ["Clean", "Readable", "Code"]\nprint(" - ".join(words))',
+                video: "Programming with Mosh: Strings",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 13, title: "Advanced String Operations",
+                desc: "Escape characters, raw strings (r''), string formatting templates, and string manipulation.",
+                code: 'file_path = r"C:\\Users\\Developer\\Desktop\\Code"\nprint("Target path:", file_path)',
+                video: "Corey Schafer: String Formatting",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 14, title: "List Comprehension",
+                desc: "Concise Pythonic list generation syntax: [expression for item in iterable if condition].",
+                code: 'even_squares = [x**2 for x in range(10) if x % 2 == 0]\nprint(even_squares)',
+                video: "Corey Schafer: Comprehensions",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 15, title: "Dictionary Comprehension",
+                desc: "Building dictionaries concisely: {key: value for item in iterable if condition}.",
+                code: 'words = ["python", "is", "awesome"]\nlength_map = {w: len(w) for w in words}\nprint(length_map)',
+                video: "Tech With Tim: Dict Comprehensions",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 16, title: "File Handling",
+                desc: "Opening, reading, writing, and appending text files using the safe with open() context manager.",
+                code: '# Safe context manager\n# with open("notes.txt", "w") as f:\n#     f.write("Keep practicing daily!")\nprint("File handling ready.")',
+                video: "Corey Schafer: File Objects",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 17, title: "Exception Handling",
+                desc: "Handling errors gracefully with try, except, else, finally, and raising custom exceptions.",
+                code: 'try:\n    val = int("42")\n    print("Number:", val)\nexcept ValueError:\n    print("Not a valid integer")',
+                video: "Corey Schafer: Error Handling",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 18, title: "Modules & Packages",
+                desc: "Importing standard library modules (math, random, os), and organizing your own code modules.",
+                code: 'import random\noptions = ["Consistent", "Curious", "Persistent"]\nprint("Today you are:", random.choice(options))',
+                video: "Programming with Mosh: Modules",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 19, title: "OOP Part 1: Classes & Objects",
+                desc: "Object-Oriented Programming foundations. Creating classes, instances, and defining methods.",
+                code: 'class Developer:\n    def __init__(self, name):\n        self.name = name\n\nd = Developer("Alex")\nprint("Dev:", d.name)',
+                video: "Corey Schafer: OOP 1 Classes",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 20, title: "OOP Part 2: Constructor & Self",
+                desc: "The __init__() constructor, instance variables vs class variables, and the role of self.",
+                code: 'class Program:\n    platform = "PyEnglish"\n    def __init__(self, title):\n        self.title = title\n\np = Program("Backend API")\nprint(p.title, "on", Program.platform)',
+                video: "Corey Schafer: OOP 2 Class Variables",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 21, title: "OOP Part 3: Inheritance & Super",
+                desc: "Code reuse with inheritance, child classes, method overriding, and calling super().",
+                code: 'class BaseApp:\n    def run(self): print("Booting...")\n\nclass WebApp(BaseApp):\n    pass\n\nWebApp().run()',
+                video: "Corey Schafer: OOP 3 Inheritance",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 22, title: "OOP Part 4: Polymorphism & Dunder",
+                desc: "Polymorphism principles, method overriding, and special double-underscore methods (__str__, __len__).",
+                code: 'class Book:\n    def __init__(self, t): self.t = t\n    def __str__(self): return f"Book: {self.t}"\n\nprint(Book("Fluent Python"))',
+                video: "Corey Schafer: OOP 4 Special Methods",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 23, title: "Date & Time in Python",
+                desc: "Using the datetime module, date formatting with strftime(), and timedelta calculations.",
+                code: 'from datetime import datetime\nprint("Current time:", datetime.now().strftime("%Y-%m-%d %H:%M"))',
+                video: "Corey Schafer: Datetime Module",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 24, title: "Regular Expressions (re module)",
+                desc: "Pattern matching with re.search(), re.findall(), and validating strings like email and phone numbers.",
+                code: 'import re\ntext = "Contact at info@domain.com"\nmatch = re.search(r"[\\w.]+@[\\w.]+", text)\nprint("Found:", match.group() if match else "None")',
+                video: "Corey Schafer: Regular Expressions",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 25, title: "Working with JSON",
+                desc: "Serializing Python data to JSON with json.dumps() and parsing JSON into dictionaries with json.loads().",
+                code: 'import json\ndata = {"track": "Python", "progress": 100}\njson_str = json.dumps(data)\nprint("JSON:", json_str)',
+                video: "Tech With Tim: JSON in Python",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 26, title: "Web Scraping (Basics)",
+                desc: "Introduction to HTML structure, requests library, and BeautifulSoup for parsing web pages.",
+                code: '# Basic conceptual structure\n# from bs4 import BeautifulSoup\n# soup = BeautifulSoup(html_doc, "html.parser")\nprint("Web scraping foundations ready.")',
+                video: "Corey Schafer: Web Scraping BS4",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 27, title: "Mini Project 1: CLI To-Do List",
+                desc: "Build an interactive task manager (Add, View, Mark Complete, and Delete tasks).",
+                code: 'tasks = []\ndef add_task(t): tasks.append(t); print(f"Added: {t}")\nadd_task("Review OOP")\nadd_task("Write Tests")\nprint("Tasks:", tasks)',
+                video: "Tech With Tim: Python Projects",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 28, title: "Mini Project 2: Password Generator",
+                desc: "Create strong random passwords combining uppercase, lowercase, numbers, and symbols.",
+                code: 'import random, string\nchars = string.ascii_letters + string.digits + "!@#$%*"\npwd = "".join(random.choice(chars) for _ in range(12))\nprint("Generated Password:", pwd)',
+                video: "Programming with Mosh: Project 2",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 29, title: "Mini Project 3: Rock Paper Scissors",
+                desc: "Build the classic game vs the computer using random choice, while loops, and conditional logic.",
+                code: 'import random\nchoices = ["rock", "paper", "scissors"]\ncomputer = random.choice(choices)\nuser = "rock"\nprint(f"User: {user} | Comp: {computer}")',
+                video: "Tech With Tim: Beginner Games",
+                url: "https://www.youtube.com"
+            },
+            {
+                day: 30, title: "Revision & Final Challenge",
+                desc: "Recap all 30 days of foundational concepts, solve complex challenge problems, and build your own app.",
+                code: 'print("CONGRATULATIONS! You completed 30 Days of Python!")\nprint("Now step into the 5 Specialized Challenge disciplines.")',
+                video: "Corey Schafer: Python Full Course Recap",
+                url: "https://www.youtube.com"
+            }
+        ];
 
-  <script type="module" src="/src/main.js"></script>
+        // 30 Days English Curriculum (From the 30 Days to Improve English Guide)
+        const englishDaysData = [
+            { day: 1, title: "Learn 10 New Words", desc: "Build active vocabulary. Focus on core software and daily learning adjectives.", drill: "Words: Consistent, Efficient, Logic, Adapt, Fluent, Syntax, Module, Dynamic, Execute, Analyze." },
+            { day: 2, title: "Read an English Article", desc: "Spend 10 minutes reading an English tech or science article. Note 3 unfamiliar phrases.", drill: "Practice: 'Python is a high-level interpreted programming language renowned for its elegant syntax.'" },
+            { day: 3, title: "Watch Short Video in English", desc: "Watch an educational video with English subtitles. Focus on intonation and rhythm.", drill: "Summarize the 3-minute video aloud in two complete sentences." },
+            { day: 4, title: "Learn 5 Phrasal Verbs", desc: "Master phrasal verbs: figure out, look into, break down, turn out, carry on.", drill: "'We need to figure out why the loop failed and look into the error message.'" },
+            { day: 5, title: "Write a Short Journal Entry", desc: "Write 4-5 sentences in English reflecting on your progress and hurdles this week.", drill: "'Today I learned loops in programming. It felt challenging at first, but writing small examples helped me understand.'" },
+            { day: 6, title: "Practice Pronunciation (15 Mins)", desc: "Focus on /th/, /r/, and /l/ sounds. Practice reading technical terms clearly.", drill: "Pronounce: 'Algorithm', 'Variable', 'Through', 'Iterate', 'Regular Expressions'." },
+            { day: 7, title: "Review Week 1 Learnings", desc: "Active recall session of all vocabulary words, verbs, and sentence patterns learned so far.", drill: "Explain in English to a peer what a computer function does." },
+            { day: 8, title: "Learn Common Idioms", desc: "Master idioms: 'Bite the bullet', 'Piece of cake', 'Hit the nail on the head', 'Back to the drawing board'.", drill: "'Learning list slicing was a piece of cake once I understood zero-based indexing!'" },
+            { day: 9, title: "Listen to an English Podcast", desc: "Listen to 15 minutes of a podcast (e.g., 6 Minute English or tech podcasts).", drill: "Write down 3 interesting adjectives or connectors you heard." },
+            { day: 10, title: "Describe Your Day in English", desc: "Record your voice for 2 minutes describing what you did from morning to night.", drill: "'First, I woke up at 7 AM. Then, I reviewed my code before having a healthy breakfast.'" },
+            { day: 11, title: "Learn 10 Business Words", desc: "Professional terms: Leverage, Scalable, Deliverable, Alignment, Synergy, Implement, Optimize, Benchmark, Agile, Metric.", drill: "'We need to optimize the database query to ensure the system is scalable for all stakeholders.'" },
+            { day: 12, title: "Read One Book Chapter", desc: "Read one chapter of an English fiction or non-fiction book without translating every word.", drill: "Focus on understanding context through narrative flow rather than individual word definitions." },
+            { day: 13, title: "Practice Speaking for 10 Minutes", desc: "Talk non-stop in English about why you are passionate about technology.", drill: "'I want to become a proficient developer because programming allows me to solve meaningful problems.'" },
+            { day: 14, title: "Learn Grammar Rules", desc: "Review Subject-Verb Agreement (is/am/are, do/does, has/have) from the reference sheet.", drill: "'He does his homework while they do their group project. She has completed the task.'" },
+            { day: 15, title: "Watch Movie with English Subtitles", desc: "Watch a scene with native actors speaking. Pay attention to connected speech and reductions.", drill: "'I am going to -> I'm gonna', 'I have got to -> I've gotta'." },
+            { day: 16, title: "Memorize Useful Expressions", desc: "Review daily phrases: 'It slipped my mind', 'I appreciate it', 'Things are looking up'.", drill: "'Thanks a lot for the review. I will make a note of it right away.'" },
+            { day: 17, title: "Practice Listening Comprehension", desc: "Listen to a tech conference talk excerpt and write down 5 key takeaways.", drill: "Notice transition markers: 'Furthermore', 'Consequently', 'On the other hand'." },
+            { day: 18, title: "Write a Professional Paragraph", desc: "Draft a concise LinkedIn or resume summary describing your technical capabilities.", drill: "'I am an enthusiastic developer dedicated to writing clean Python code and communicating effectively in international teams.'" },
+            { day: 19, title: "Learn 20 Collocations", desc: "Word pairs that go together naturally: 'Make an effort', 'Catch an error', 'Pay attention', 'Solve a problem'.", drill: "'Make a decision', 'Take a risk', 'Run a program', 'Pose a question'." },
+            { day: 20, title: "Read English Tech News", desc: "Read articles on TechCrunch or Hacker News and summarize the main headline in 2 sentences.", drill: "Passive voice practice: 'The new feature was released yesterday by the core development team.'" },
+            { day: 21, title: "Review Vocabulary & Self-Introduction", desc: "Practice the 12 Words to Introduce Yourself: Name, From, Work, Study, Live, Hobby, Goal, Skill.", drill: "'I come from Toronto and I work as a software engineer. My goal is to build accessible digital products.'" },
+            { day: 22, title: "Shadow a Native Speaker", desc: "Repeat sentences simultaneously with a speaker on a podcast or TED talk to match cadence and stress.", drill: "Imitate native sentence stress: emphasize verbs and nouns, reduce unstressed prepositions." },
+            { day: 23, title: "Have an English Conversation", desc: "Engage in an English dialogue with a friend, language partner, or with the AI Tutor.", drill: "'Could you give me some feedback on my presentation slides?'" },
+            { day: 24, title: "Learn Transition Words", desc: "Connecting ideas: Furthermore, In addition, Consequently, Nevertheless, In conclusion.", drill: "'Python is versatile; furthermore, its community support is unmatched across the world.'" },
+            { day: 25, title: "Practice Difficult Pronunciation", desc: "Tackle tricky words: Thorough, Throughout, Phenomenon, Rural, Anemone, Specifically.", drill: "Pronounce clearly: 'He thoroughly researched the phenomenon specifically for the project.'" },
+            { day: 26, title: "Learn 10 Advanced Words", desc: "High-level vocabulary: Quintessential, Ubiquitous, Ephemeral, Meticulous, Resilient, Pragmatic, Astute, Prolific, Lucid, Benchmark.", drill: "'The engineer took a pragmatic approach and wrote clean, meticulously tested functions.'" },
+            { day: 27, title: "Write About Your Goals", desc: "Write a 150-word essay about where you see your career in 3 years.", drill: "'In three years, I envision myself leading software projects and collaborating fluently with engineers worldwide.'" },
+            { day: 28, title: "Watch a TED Talk", desc: "Watch a 10-minute TED Talk on learning habits and note the speaker's vocal pacing and pauses.", drill: "Notice how effective speakers pause before delivering key emotional points." },
+            { day: 29, title: "Take a Comprehensive Vocab Quiz", desc: "Review all 99 irregular verbs, 14 tense formulas, and daily life phrases.", drill: "Self-test: What is the V2 and V3 of 'freeze'? (froze, frozen). What is V2 of 'choose'? (chose)." },
+            { day: 30, title: "Speak Only English for 1 Hour", desc: "The 30-day milestone! Commit to communicating 100% in English for a full hour.", drill: "'Consistency beats perfection. I am proud of my progress and excited to keep learning!'" }
+        ];
+
+        // 99 English Verbs (V1, V2, V3) from uploaded reference
+        const verbs99List = [
+            { id: 1, v1: "Go", v2: "Went", v3: "Gone" },
+            { id: 2, v1: "Eat", v2: "Ate", v3: "Eaten" },
+            { id: 3, v1: "Drink", v2: "Drank", v3: "Drunk" },
+            { id: 4, v1: "Sleep", v2: "Slept", v3: "Slept" },
+            { id: 5, v1: "Run", v2: "Ran", v3: "Run" },
+            { id: 6, v1: "Walk", v2: "Walked", v3: "Walked" },
+            { id: 7, v1: "Speak", v2: "Spoke", v3: "Spoken" },
+            { id: 8, v1: "Listen", v2: "Listened", v3: "Listened" },
+            { id: 9, v1: "See", v2: "Saw", v3: "Seen" },
+            { id: 10, v1: "Look", v2: "Looked", v3: "Looked" },
+            { id: 11, v1: "Write", v2: "Wrote", v3: "Written" },
+            { id: 12, v1: "Read", v2: "Read", v3: "Read" },
+            { id: 13, v1: "Learn", v2: "Learned", v3: "Learned" },
+            { id: 14, v1: "Think", v2: "Thought", v3: "Thought" },
+            { id: 15, v1: "Know", v2: "Knew", v3: "Known" },
+            { id: 16, v1: "Love", v2: "Loved", v3: "Loved" },
+            { id: 17, v1: "Like", v2: "Liked", v3: "Liked" },
+            { id: 18, v1: "Smile", v2: "Smiled", v3: "Smiled" },
+            { id: 19, v1: "Laugh", v2: "Laughed", v3: "Laughed" },
+            { id: 20, v1: "Cry", v2: "Cried", v3: "Cried" },
+            { id: 21, v1: "Sing", v2: "Sang", v3: "Sung" },
+            { id: 22, v1: "Dance", v2: "Danced", v3: "Danced" },
+            { id: 23, v1: "Play", v2: "Played", v3: "Played" },
+            { id: 24, v1: "Buy", v2: "Bought", v3: "Bought" },
+            { id: 25, v1: "Sell", v2: "Sold", v3: "Sold" },
+            { id: 26, v1: "Pay", v2: "Paid", v3: "Paid" },
+            { id: 27, v1: "Meet", v2: "Met", v3: "Met" },
+            { id: 28, v1: "Call", v2: "Called", v3: "Called" },
+            { id: 29, v1: "Talk", v2: "Talked", v3: "Talked" },
+            { id: 30, v1: "Ask", v2: "Asked", v3: "Asked" },
+            { id: 31, v1: "Answer", v2: "Answered", v3: "Answered" },
+            { id: 32, v1: "Work", v2: "Worked", v3: "Worked" },
+            { id: 33, v1: "Study", v2: "Studied", v3: "Studied" },
+            { id: 34, v1: "Teach", v2: "Taught", v3: "Taught" },
+            { id: 35, v1: "Swim", v2: "Swam", v3: "Swum" },
+            { id: 36, v1: "Drive", v2: "Drove", v3: "Driven" },
+            { id: 37, v1: "Fly", v2: "Flew", v3: "Flown" },
+            { id: 38, v1: "Travel", v2: "Traveled", v3: "Traveled" },
+            { id: 39, v1: "Live", v2: "Lived", v3: "Lived" },
+            { id: 40, v1: "Clean", v2: "Cleaned", v3: "Cleaned" },
+            { id: 41, v1: "Cook", v2: "Cooked", v3: "Cooked" },
+            { id: 42, v1: "Open", v2: "Opened", v3: "Opened" },
+            { id: 43, v1: "Close", v2: "Closed", v3: "Closed" },
+            { id: 44, v1: "Enter", v2: "Entered", v3: "Entered" },
+            { id: 45, v1: "Leave", v2: "Left", v3: "Left" },
+            { id: 46, v1: "Rise", v2: "Rose", v3: "Risen" },
+            { id: 47, v1: "Fall", v2: "Fell", v3: "Fallen" },
+            { id: 48, v1: "Sit", v2: "Sat", v3: "Sat" },
+            { id: 49, v1: "Stand", v2: "Stood", v3: "Stood" },
+            { id: 50, v1: "Give", v2: "Gave", v3: "Given" },
+            { id: 51, v1: "Receive", v2: "Received", v3: "Received" },
+            { id: 52, v1: "Send", v2: "Sent", v3: "Sent" },
+            { id: 53, v1: "Get", v2: "Got", v3: "Got/Gotten" },
+            { id: 54, v1: "Help", v2: "Helped", v3: "Helped" },
+            { id: 55, v1: "Support", v2: "Supported", v3: "Supported" },
+            { id: 56, v1: "Find", v2: "Found", v3: "Found" },
+            { id: 57, v1: "Lose", v2: "Lost", v3: "Lost" },
+            { id: 58, v1: "Start", v2: "Started", v3: "Started" },
+            { id: 59, v1: "Stop", v2: "Stopped", v3: "Stopped" },
+            { id: 60, v1: "Finish", v2: "Finished", v3: "Finished" },
+            { id: 61, v1: "Build", v2: "Built", v3: "Built" },
+            { id: 62, v1: "Make", v2: "Made", v3: "Made" },
+            { id: 63, v1: "Create", v2: "Created", v3: "Created" },
+            { id: 64, v1: "Destroy", v2: "Destroyed", v3: "Destroyed" },
+            { id: 65, v1: "Choose", v2: "Chose", v3: "Chosen" },
+            { id: 66, v1: "Change", v2: "Changed", v3: "Changed" },
+            { id: 67, v1: "Bring", v2: "Brought", v3: "Brought" },
+            { id: 68, v1: "Carry", v2: "Carried", v3: "Carried" },
+            { id: 69, v1: "Grow", v2: "Grew", v3: "Grown" },
+            { id: 70, v1: "Rain", v2: "Rained", v3: "Rained" },
+            { id: 71, v1: "Shine", v2: "Shone", v3: "Shone" },
+            { id: 72, v1: "Burn", v2: "Burned", v3: "Burned" },
+            { id: 73, v1: "Freeze", v2: "Froze", v3: "Frozen" },
+            { id: 74, v1: "Become", v2: "Became", v3: "Become" },
+            { id: 75, v1: "Hold", v2: "Held", v3: "Held" },
+            { id: 76, v1: "Drop", v2: "Dropped", v3: "Dropped" },
+            { id: 77, v1: "Knock", v2: "Knocked", v3: "Knocked" },
+            { id: 78, v1: "Wash", v2: "Washed", v3: "Washed" },
+            { id: 79, v1: "Wear", v2: "Wore", v3: "Worn" },
+            { id: 80, v1: "Dress", v2: "Dressed", v3: "Dressed" },
+            { id: 81, v1: "Pack", v2: "Packed", v3: "Packed" },
+            { id: 82, v1: "Spend", v2: "Spent", v3: "Spent" },
+            { id: 83, v1: "Save", v2: "Saved", v3: "Saved" },
+            { id: 84, v1: "Win", v2: "Won", v3: "Won" },
+            { id: 85, v1: "Fail", v2: "Failed", v3: "Failed" },
+            { id: 86, v1: "Achieve", v2: "Achieved", v3: "Achieved" },
+            { id: 87, v1: "Decide", v2: "Decided", v3: "Decided" },
+            { id: 88, v1: "Thank", v2: "Thanked", v3: "Thanked" },
+            { id: 89, v1: "Celebrate", v2: "Celebrated", v3: "Celebrated" },
+            { id: 90, v1: "Shop", v2: "Shopped", v3: "Shopped" },
+            { id: 91, v1: "Capture", v2: "Captured", v3: "Captured" },
+            { id: 92, v1: "Repair", v2: "Repaired", v3: "Repaired" },
+            { id: 93, v1: "Solve", v2: "Solved", v3: "Solved" },
+            { id: 94, v1: "Try", v2: "Tried", v3: "Tried" },
+            { id: 95, v1: "Wait", v2: "Waited", v3: "Waited" },
+            { id: 96, v1: "Improve", v2: "Improved", v3: "Improved" },
+            { id: 97, v1: "Increase", v2: "Increased", v3: "Increased" },
+            { id: 98, v1: "Decrease", v2: "Decreased", v3: "Decreased" },
+            { id: 99, v1: "Explore", v2: "Explored", v3: "Explored" }
+        ];
+
+        // 100 Daily Life Sentences
+        const dailySentences = [
+            "How's it going?", "I'll take this.", "That's amazing!", "Where do you live?", "I'll pay in cash.",
+            "I'm running late.", "Do you live nearby?", "Here you go.", "That sounds good.", "That's all for today.",
+            "I'll be with you shortly.", "What did you think?", "Make yourself at home.", "I completely agree.",
+            "It's on the tip of my tongue.", "I'm on a call right now.", "Call me back later.", "You're on the right track.",
+            "Just give me a shout.", "Can I help you?", "Could I join you?", "Have you heard the news?", "I appreciate it.",
+            "You can't miss it.", "I changed my mind.", "Let me check.", "I'll be right back.", "I'm not interested.",
+            "I didn't catch that.", "Are you ready to order?", "It doesn't matter.", "What brings you here?",
+            "Is this your first time?", "I'm just about to leave.", "Is that clear?", "I'll make a note of it.",
+            "I'll get the door.", "Let's take a break.", "It's up to you.", "Nice to meet you.",
+            "Are you free tomorrow?", "It's not that far.", "How do I get there?", "It's just a bit further.",
+            "That's not fair.", "That's a good one.", "It really takes time.", "That would be great.",
+            "Can I get your phone number?", "It slipped my mind.", "I'll get the bill, thanks.", "It's a bit chilly today.",
+            "What's the matter?", "Things are looking up.", "He was out of the office.", "It's worth a try.",
+            "Thanks a lot.", "Can I pay by card?", "When did this happen?", "I got a good deal.", "I'll let you know.",
+            "It's a long story.", "Keep the change.", "It's hard to say.", "Just give me a call.", "It won't happen again.",
+            "Let's eat out tonight.", "What do you recommend?", "Are you following me?", "It costs a fortune.",
+            "What's going on?", "I need to get ready.", "I'm working on it.", "It serves you right.", "I'm on my way."
+        ];
+
+        // 14 Tenses Matrix
+        const tensesMatrix = [
+            { num: 1, name: "Present Simple", formula: "S + V1 (s/es)", ex: "She writes clean Python code every morning." },
+            { num: 2, name: "Present Continuous", formula: "S + is/am/are + V1 + ing", ex: "I am learning list comprehensions right now." },
+            { num: 3, name: "Present Perfect", formula: "S + has/have + V3", ex: "They have completed the 30-day challenge." },
+            { num: 4, name: "Present Perfect Continuous", formula: "S + has/have + been + V1 + ing", ex: "He has been coding in Python for three hours." },
+            { num: 5, name: "Past Simple", formula: "S + V2", ex: "We built a command-line application yesterday." },
+            { num: 6, name: "Past Continuous", formula: "S + was/were + V1 + ing", ex: "She was debugging a function when the system alerted her." },
+            { num: 7, name: "Past Perfect", formula: "S + had + V3", ex: "I had practiced irregular verbs before the quiz started." },
+            { num: 8, name: "Past Perfect Continuous", formula: "S + had been + V1 + ing", ex: "They had been practicing English speaking for months." },
+            { num: 9, name: "Future Simple", formula: "S + will + V1", ex: "You will master both programming and communication." },
+            { num: 10, name: "Be Going To", formula: "S + is/am/are + going to + V1", ex: "I am going to build a web scraper tomorrow." },
+            { num: 11, name: "Future Continuous", formula: "S + will be + V1 + ing", ex: "Tomorrow at 5 PM, we will be deploying the project." },
+            { num: 12, name: "Future Perfect", formula: "S + will have + V3", ex: "By next week, she will have finished all 30 lessons." },
+            { num: 13, name: "Future Perfect Continuous", formula: "S + will have been + V1 + ing", ex: "By December, he will have been coding for a full year." },
+            { num: 14, name: "Past Future (Would)", formula: "S + would + V1", ex: "He said he would fix the bug in the morning." }
+        ];
+
+        // English Rules (Subject-Verb Agreement)
+        const englishRules = [
+            { id: 1, title: "is / am / are", items: ["I - am", "He / She / It - is", "You / We / They - are"] },
+            { id: 2, title: "do / does", items: ["I - do", "He / She / It - does", "You / We / They - do"] },
+            { id: 3, title: "has / have", items: ["I - have", "He / She / It - has", "You / We / They - have"] },
+            { id: 4, title: "was / were", items: ["I - was", "He / She / It - was", "You / We / They - were"] },
+            { id: 5, title: "did (Past Simple)", items: ["I - did", "He / She / It - did", "You / We / They - did"] },
+            { id: 6, title: "had (Past Perfect)", items: ["I - had", "He / She / It - had", "You / We / They - had"] }
+        ];
+
+        // 12 Words to Introduce Yourself
+        const introWords = [
+            { id: 1, word: "NAME", cues: ["My name is...", "I'm...", "I am called...", "People call me..."] },
+            { id: 2, word: "FROM", cues: ["I'm from...", "I come from...", "I was born in...", "I grew up in..."] },
+            { id: 3, word: "WORK", cues: ["I work as...", "I am a...", "My job is...", "I'm responsible for..."] },
+            { id: 4, word: "STUDY", cues: ["I study...", "I'm learning...", "I'm majoring in...", "I'm taking a course in..."] },
+            { id: 5, word: "LIVE", cues: ["I live in...", "I stay in...", "I'm based in...", "I reside in..."] },
+            { id: 6, word: "FAMILY", cues: ["I have a family of...", "There are ... of us", "I live with my..."] },
+            { id: 7, word: "HOBBY", cues: ["I enjoy...", "I like...", "I'm passionate about...", "I spend free time..."] },
+            { id: 8, word: "SKILL", cues: ["I can...", "I'm good at...", "I'm skilled in...", "I'm familiar with..."] },
+            { id: 9, word: "GOAL", cues: ["My goal is...", "I want to...", "I hope to...", "I aim to..."] },
+            { id: 10, word: "PERSONALITY", cues: ["I'm friendly", "I'm positive", "I'm hardworking", "I'm creative"] },
+            { id: 11, word: "EXPERIENCE", cues: ["I have experience in...", "I've practiced...", "I've developed..."] },
+            { id: 12, word: "AGE", cues: ["I'm ... years old", "I'm in my twenties", "I'm currently ..."] }
+        ];
+
+        // 5 Python Specialized Challenge Categories
+        const pythonChallenges = [
+            {
+                key: 'algo',
+                name: '1. Algorithmic Thinker',
+                icon: 'fa-brain',
+                color: 'blue',
+                desc: 'Hone algorithmic efficiency, two-pointer techniques, and data structures.',
+                tasks: [
+                    { diff: 'Easy', title: 'Target Sum Pair (Two Sum)', desc: 'Find two indices that sum up to a given target.', code: 'def two_sum(nums, target):\n    lookup = {}\n    for i, n in enumerate(nums):\n        diff = target - n\n        if diff in lookup:\n            return [lookup[diff], i]\n        lookup[n] = i\n    return []\n\nprint("Indices:", two_sum([2, 7, 11, 15], 9))' },
+                    { diff: 'Medium', title: 'Valid Palindrome Validator', desc: 'Check if a string reads identically forwards and backwards ignoring symbols.', code: 'def is_palindrome(s):\n    cleaned = [c.lower() for c in s if c.isalnum()]\n    return cleaned == cleaned[::-1]\n\nprint("Is Palindrome?", is_palindrome("A man, a plan, a canal: Panama"))' }
+                ]
+            },
+            {
+                key: 'debug',
+                name: '2. Bug Hunter & Debugger',
+                icon: 'fa-bug',
+                color: 'amber',
+                desc: 'Diagnose runtime errors, type mismatches, and boundary edge cases.',
+                tasks: [
+                    { diff: 'Easy', title: 'Fix Infinite Loop', desc: 'Identify missing loop step increment.', code: '# Fixed:\ncount = 0\nwhile count < 4:\n    print(f"Count: {count}")\n    count += 1' },
+                    { diff: 'Medium', title: 'Safe Dictionary Key Extractor', desc: 'Prevent KeyError exceptions using dict.get() with fallback defaults.', code: 'profile = {"user": "neo"}\n# Avoid crash:\nemail = profile.get("email", "no-email@domain.com")\nprint(f"User email: {email}")' }
+                ]
+            },
+            {
+                key: 'opt',
+                name: '3. Code Optimizer',
+                icon: 'fa-gauge-high',
+                color: 'emerald',
+                desc: 'Turn sluggish O(N^2) searches into instant O(1) or O(N) operations.',
+                tasks: [
+                    { diff: 'Medium', title: 'Set Membership Speedup', desc: 'Replace slow list lookups with hash set instant lookups.', code: 'items = list(range(10000))\nlookup_set = set(items)\nprint("Found in O(1):", 9999 in lookup_set)' }
+                ]
+            },
+            {
+                key: 'projects',
+                name: '4. Mini Projects (Days 27–29)',
+                icon: 'fa-cubes',
+                color: 'purple',
+                desc: 'Hands-on interactive projects: To-Do App, Password Gen, and Rock Paper Scissors.',
+                tasks: [
+                    { diff: 'Mini Project 1', title: 'CLI To-Do List (Day 27)', desc: 'Add, list, and complete tasks in a clean terminal list.', code: 'todo_list = []\ndef add(t): todo_list.append({"task": t, "done": False})\nadd("Practice Python")\nadd("Speak English")\nfor i, item in enumerate(todo_list, 1):\n    print(f"{i}. [Pending] {item[\'task\']}")' },
+                    { diff: 'Mini Project 2', title: 'Strong Password Generator (Day 28)', desc: 'Generate high-entropy randomized credentials.', code: 'import random, string\nchars = string.ascii_letters + string.digits + "!@#$%^&*"\npwd = "".join(random.choice(chars) for _ in range(14))\nprint("Secure Password:", pwd)' },
+                    { diff: 'Mini Project 3', title: 'Rock Paper Scissors (Day 29)', desc: 'Play against the computer using random choice and score checks.', code: 'import random\nmoves = ["rock", "paper", "scissors"]\ncomp = random.choice(moves)\nuser = "rock"\nprint(f"You: {user} | Comp: {comp}")' }
+                ]
+            },
+            {
+                key: 'data',
+                name: '5. Real-World Data Wrangler',
+                icon: 'fa-table',
+                color: 'cyan',
+                desc: 'Parse real-world structured datasets, compute statistics, and clean records.',
+                tasks: [
+                    { diff: 'Medium', title: 'CSV Parser to Dictionaries', desc: 'Transform raw comma-separated text into structured JSON dictionaries.', code: 'raw_csv = "Name,Score\\nAlex,95\\nMaria,98"\nlines = raw_csv.strip().split("\\n")\nheader = lines[0].split(",")\nresults = [dict(zip(header, row.split(","))) for row in lines[1:]]\nprint("Parsed Records:", results)' }
+                ]
+            }
+        ];
+
+        // 5 English Specialized Challenge Disciplines
+        const englishChallenges = [
+            {
+                key: 'speaking',
+                name: '1. Speaking & Fluency',
+                icon: 'fa-microphone-lines',
+                color: 'purple',
+                desc: 'Speech shadowing, rapid self-introductions, and pronunciation checks.',
+                tasks: [
+                    { diff: 'Easy', title: '60-Second Self-Introduction', prompt: "Hi everyone! My name is Jordan. I'm from Seattle and I work as a software developer. I enjoy building useful tools and learning languages." },
+                    { diff: 'Medium', title: 'Explaining a Technical Concept', prompt: "A function in programming is like a kitchen blender: you supply ingredients (parameters), it runs the process, and outputs a ready smoothie (return value)." }
+                ]
+            },
+            {
+                key: 'listening',
+                name: '2. Listening Comprehension',
+                icon: 'fa-ear-listen',
+                color: 'blue',
+                desc: 'Connected speech discernment, reductions, and native rhythm.',
+                tasks: [
+                    { diff: 'Easy', title: 'Connected Speech Blends', prompt: "Notice how native speakers say 'Could you help me?' as 'Could-joo help me?' and 'What do you want?' as 'Whaddya want?'" }
+                ]
+            },
+            {
+                key: 'grammar',
+                name: '3. Grammar & Tense Mastery',
+                icon: 'fa-scale-balanced',
+                color: 'rose',
+                desc: 'Precision drills with the 14 Tenses and Subject-Verb agreement.',
+                tasks: [
+                    { diff: 'Easy', title: 'Present Perfect vs Past Simple', prompt: "Use Present Perfect for lifetime experiences ('I have studied Python for a year') and Past Simple for specific finished moments ('I wrote the code yesterday')." }
+                ]
+            },
+            {
+                key: 'writing',
+                name: '4. Professional Writing & Docs',
+                icon: 'fa-pen-nib',
+                color: 'emerald',
+                desc: 'Writing clear bug reports, email updates, and GitHub PR descriptions.',
+                tasks: [
+                    { diff: 'Medium', title: 'GitHub PR Description', prompt: "PR Summary: Refactored the authentication module to handle token expiration gracefully and updated error logging for production diagnostics." }
+                ]
+            },
+            {
+                key: 'reading',
+                name: '5. Technical Reading & Documentation',
+                icon: 'fa-book-open-reader',
+                color: 'amber',
+                desc: 'Fast reading of official documentation, PEP standards, and API guides.',
+                tasks: [
+                    { diff: 'Hard', title: 'Deciphering Python PEP 8 Guidelines', prompt: "Code is read much more often than it is written. Guidelines are intended to improve readability and make it consistent across wide software spectrums." }
+                ]
+            }
+        ];
+
+        /* ================= STATE MANAGEMENT ================= */
+        let state = {
+            user: localStorage.getItem('pyeng_user') || 'Learner',
+            pyCompleted: JSON.parse(localStorage.getItem('pyeng_py_done') || '[]'),
+            engCompleted: JSON.parse(localStorage.getItem('pyeng_eng_done') || '[]'),
+            pyFilter: 'all',
+            engFilter: 'all',
+            activePyChallengeIdx: 0,
+            activeEngChallengeIdx: 0,
+            activeResourceTab: 'verbs',
+            isDark: false
+        };
+
+        let tutorChatHistory = [];
+
+        function initApp() {
+            // Theme check
+            if (localStorage.getItem('pyeng_dark') === 'true' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                state.isDark = true;
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-amber-400';
+            }
+
+            updateDashboardMetrics();
+            renderPythonTrack();
+            renderEnglishTrack();
+            renderPythonChallenges();
+            renderEnglishChallenges();
+            renderResourceVault();
+            updateAuthHeader();
+        }
+
+        function saveState() {
+            localStorage.setItem('pyeng_user', state.user);
+            localStorage.setItem('pyeng_py_done', JSON.stringify(state.pyCompleted));
+            localStorage.setItem('pyeng_eng_done', JSON.stringify(state.engCompleted));
+            updateDashboardMetrics();
+        }
+
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(`view-${tabId}`);
+            if (target) target.classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('bg-white', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white', 'shadow-sm');
+                b.classList.add('text-slate-600', 'dark:text-slate-300');
+            });
+
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'dark:bg-slate-700', 'text-slate-900', 'dark:text-white', 'shadow-sm');
+                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-300');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function toggleDarkMode() {
+            state.isDark = !state.isDark;
+            if (state.isDark) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-sun text-amber-400';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon').className = 'fa-solid fa-moon';
+            }
+            localStorage.setItem('pyeng_dark', state.isDark);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notif');
+            document.getElementById('toast-msg').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${msg}</span>`;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2800);
+        }
+
+        function updateDashboardMetrics() {
+            const pyCount = state.pyCompleted.length;
+            const engCount = state.engCompleted.length;
+
+            document.getElementById('dash-py-done').innerText = pyCount;
+            document.getElementById('dash-eng-done').innerText = engCount;
+
+            const pyPct = Math.round((pyCount / 30) * 100);
+            const engPct = Math.round((engCount / 30) * 100);
+
+            document.getElementById('dash-py-pct').innerText = `${pyPct}%`;
+            document.getElementById('dash-eng-pct').innerText = `${engPct}%`;
+
+            document.getElementById('dash-py-bar').style.width = `${pyPct}%`;
+            document.getElementById('dash-eng-bar').style.width = `${engPct}%`;
+
+            const pyXP = pyCount * 60;
+            const engXP = engCount * 60;
+
+            document.getElementById('dash-py-xp').innerText = `${pyXP} XP`;
+            document.getElementById('dash-eng-xp').innerText = `${engXP} XP`;
+
+            // Python Level
+            let pyLevel = "Novice Coder";
+            if (pyCount >= 28) pyLevel = "Python Architect";
+            else if (pyCount >= 18) pyLevel = "Advanced Developer";
+            else if (pyCount >= 8) pyLevel = "Intermediate Coder";
+            document.getElementById('dash-py-level').innerText = pyLevel;
+
+            // English Level
+            let engLevel = "Beginner Speaker";
+            if (engCount >= 28) engLevel = "Fluent Polyglot";
+            else if (engCount >= 18) engLevel = "Confident Speaker";
+            else if (engCount >= 8) engLevel = "Conversational";
+            document.getElementById('dash-eng-level').innerText = engLevel;
+
+            // Next topics
+            const nextPy = pythonDaysData.find(d => !state.pyCompleted.includes(d.day));
+            document.getElementById('dash-py-next').innerText = nextPy ? `Day ${nextPy.day}: ${nextPy.title}` : "All 30 Days Completed! 🎉";
+
+            const nextEng = englishDaysData.find(d => !state.engCompleted.includes(d.day));
+            document.getElementById('dash-eng-next').innerText = nextEng ? `Day ${nextEng.day}: ${nextEng.title}` : "All 30 Days Completed! 🎉";
+        }
+
+        /* ================= PYTHON TRACK RENDERING ================= */
+        function filterPythonDays(filt) {
+            state.pyFilter = filt;
+            document.querySelectorAll('[id^="py-filt-"]').forEach(b => {
+                b.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 transition";
+            });
+            document.getElementById(`py-filt-${filt}`).className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-blue-600 dark:text-white shadow-sm transition";
+            renderPythonTrack();
+        }
+
+        function renderPythonTrack() {
+            const container = document.getElementById('py-curriculum-container');
+            container.innerHTML = '';
+
+            let list = pythonDaysData;
+            if (state.pyFilter === 'completed') list = list.filter(d => state.pyCompleted.includes(d.day));
+            if (state.pyFilter === 'uncompleted') list = list.filter(d => !state.pyCompleted.includes(d.day));
+
+            list.forEach(item => {
+                const isDone = state.pyCompleted.includes(item.day);
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border ${isDone ? 'border-emerald-400/50 bg-emerald-50/10' : 'border-slate-200 dark:border-slate-800'} shadow-sm flex flex-col justify-between hover:border-blue-400 transition group">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${isDone ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'}">
+                                    Day ${item.day}
+                                </span>
+                                <button onclick="togglePythonDone(${item.day})" title="Toggle Completion" class="w-7 h-7 rounded-xl flex items-center justify-center transition ${isDone ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-blue-600'}">
+                                    <i class="fa-solid ${isDone ? 'fa-check' : 'fa-circle-notch text-xs'}"></i>
+                                </button>
+                            </div>
+                            <h4 class="font-extrabold text-sm text-slate-900 dark:text-white mt-1 leading-snug">${item.title}</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <button onclick="openPythonModal(${item.day})" class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center hover:underline">
+                                <span>View Lesson</span>
+                                <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+                            </button>
+                            <button onclick="loadCodeToIde(${JSON.stringify(item.code).replace(/"/g, '&quot;')})" class="text-[11px] font-semibold text-slate-400 hover:text-slate-800 dark:hover:text-white">
+                                <i class="fa-solid fa-terminal mr-1 text-cyan-500"></i>IDE
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function togglePythonDone(day) {
+            if (state.pyCompleted.includes(day)) {
+                state.pyCompleted = state.pyCompleted.filter(d => d !== day);
+                showToast(`Day ${day} unmarked.`);
+            } else {
+                state.pyCompleted.push(day);
+                showToast(`Day ${day} Python completed! (+60 XP)`);
+            }
+            saveState();
+            renderPythonTrack();
+        }
+
+        function openPythonModal(day) {
+            const data = pythonDaysData.find(d => d.day === day);
+            if (!data) return;
+
+            const isDone = state.pyCompleted.includes(day);
+            const badge = document.getElementById('modal-track-badge');
+            badge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300";
+            badge.innerText = `Python • Day ${data.day}`;
+
+            document.getElementById('modal-lesson-title').innerText = data.title;
+            document.getElementById('modal-lesson-body').innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Concept Overview</h5>
+                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${data.desc}</p>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Runnable Code Example</h5>
+                            <button onclick="loadCodeToIde(${JSON.stringify(data.code).replace(/"/g, '&quot;')}); closeLessonModal();" class="text-xs text-blue-600 font-bold hover:underline flex items-center">
+                                <i class="fa-solid fa-code mr-1"></i> Send to IDE
+                            </button>
+                        </div>
+                        <pre class="bg-slate-950 text-slate-200 p-3.5 rounded-2xl font-mono text-xs overflow-x-auto"><code>${data.code}</code></pre>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Recommended Tutorial:</span>
+                        <a href="${data.url}" target="_blank" class="inline-flex items-center space-x-2 text-xs font-bold text-red-600 dark:text-red-400 hover:underline">
+                            <i class="fa-brands fa-youtube text-base"></i>
+                            <span>${data.video}</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-lesson-footer').innerHTML = `
+                <button onclick="togglePythonDone(${day}); openPythonModal(${day});" class="px-4 py-2 rounded-xl text-xs font-bold border ${isDone ? 'border-emerald-300 text-emerald-600' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'} transition flex items-center">
+                    <i class="fa-solid ${isDone ? 'fa-check text-emerald-500' : 'fa-circle-notch'} mr-1.5"></i>
+                    <span>${isDone ? 'Completed' : 'Mark as Done'}</span>
+                </button>
+                <button onclick="loadCodeToIde(${JSON.stringify(data.code).replace(/"/g, '&quot;')}); closeLessonModal();" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs transition">
+                    Run in IDE
+                </button>
+            `;
+
+            document.getElementById('lesson-modal').classList.replace('hidden', 'flex');
+        }
+
+        /* ================= ENGLISH TRACK RENDERING ================= */
+        function filterEnglishDays(filt) {
+            state.engFilter = filt;
+            document.querySelectorAll('[id^="eng-filt-"]').forEach(b => {
+                b.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 transition";
+            });
+            document.getElementById(`eng-filt-${filt}`).className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 text-purple-600 dark:text-white shadow-sm transition";
+            renderEnglishTrack();
+        }
+
+        function renderEnglishTrack() {
+            const container = document.getElementById('eng-curriculum-container');
+            container.innerHTML = '';
+
+            let list = englishDaysData;
+            if (state.engFilter === 'completed') list = list.filter(d => state.engCompleted.includes(d.day));
+            if (state.engFilter === 'uncompleted') list = list.filter(d => !state.engCompleted.includes(d.day));
+
+            list.forEach(item => {
+                const isDone = state.engCompleted.includes(item.day);
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border ${isDone ? 'border-emerald-400/50 bg-emerald-50/10' : 'border-slate-200 dark:border-slate-800'} shadow-sm flex flex-col justify-between hover:border-purple-400 transition group">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${isDone ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'}">
+                                    Day ${item.day}
+                                </span>
+                                <button onclick="toggleEnglishDone(${item.day})" title="Toggle Completion" class="w-7 h-7 rounded-xl flex items-center justify-center transition ${isDone ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-purple-600'}">
+                                    <i class="fa-solid ${isDone ? 'fa-check' : 'fa-circle-notch text-xs'}"></i>
+                                </button>
+                            </div>
+                            <h4 class="font-extrabold text-sm text-slate-900 dark:text-white mt-1 leading-snug">${item.title}</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                            <button onclick="openEnglishModal(${item.day})" class="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center hover:underline">
+                                <span>Practice Drill</span>
+                                <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+                            </button>
+                            <button onclick="speakAudio('${item.drill.replace(/'/g, "\\'")}')" class="text-[11px] font-semibold text-slate-400 hover:text-purple-600" title="Listen Aloud">
+                                <i class="fa-solid fa-volume-high mr-1 text-purple-500"></i>Listen
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleEnglishDone(day) {
+            if (state.engCompleted.includes(day)) {
+                state.engCompleted = state.engCompleted.filter(d => d !== day);
+                showToast(`Day ${day} unmarked.`);
+            } else {
+                state.engCompleted.push(day);
+                showToast(`Day ${day} English completed! (+60 XP)`);
+            }
+            saveState();
+            renderEnglishTrack();
+        }
+
+        function openEnglishModal(day) {
+            const data = englishDaysData.find(d => d.day === day);
+            if (!data) return;
+
+            const isDone = state.engCompleted.includes(day);
+            const badge = document.getElementById('modal-track-badge');
+            badge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300";
+            badge.innerText = `English • Day ${data.day}`;
+
+            document.getElementById('modal-lesson-title').innerText = data.title;
+            document.getElementById('modal-lesson-body').innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Today's Practice Task</h5>
+                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">${data.desc}</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-purple-700 dark:text-purple-300 uppercase tracking-wider flex items-center">
+                                <i class="fa-solid fa-microphone-lines mr-1.5"></i> Spoken Sentence Drill
+                            </span>
+                            <button onclick="speakAudio('${data.drill.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xs transition flex items-center">
+                                <i class="fa-solid fa-volume-high mr-1"></i> Speak
+                            </button>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 dark:text-slate-200 italic font-medium">"${data.drill}"</p>
+                    </div>
+
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-2xl text-xs text-slate-500 space-y-1">
+                        <p class="font-bold text-slate-700 dark:text-slate-300">Tips for success:</p>
+                        <p>1. Shadow the speaker: Listen to the audio and speak simultaneously to match rhythm.</p>
+                        <p>2. Record yourself on your smartphone to compare tone and clarity.</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-lesson-footer').innerHTML = `
+                <button onclick="toggleEnglishDone(${day}); openEnglishModal(${day});" class="px-4 py-2 rounded-xl text-xs font-bold border ${isDone ? 'border-emerald-300 text-emerald-600' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'} transition flex items-center">
+                    <i class="fa-solid ${isDone ? 'fa-check text-emerald-500' : 'fa-circle-notch'} mr-1.5"></i>
+                    <span>${isDone ? 'Completed' : 'Mark as Done'}</span>
+                </button>
+                <button onclick="speakAudio('${data.drill.replace(/'/g, "\\'")}')" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition flex items-center">
+                    <i class="fa-solid fa-volume-high mr-1.5"></i> Listen Aloud
+                </button>
+            `;
+
+            document.getElementById('lesson-modal').classList.replace('hidden', 'flex');
+        }
+
+        function closeLessonModal() {
+            document.getElementById('lesson-modal').classList.replace('flex', 'hidden');
+        }
+
+        /* ================= PYTHON CHALLENGES RENDERING ================= */
+        function renderPythonChallenges() {
+            const tabs = document.getElementById('py-challenge-tabs');
+            tabs.innerHTML = '';
+
+            pythonChallenges.forEach((cat, idx) => {
+                const isActive = idx === state.activePyChallengeIdx;
+                tabs.innerHTML += `
+                    <button onclick="selectPyChallenge(${idx})" class="px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex items-center space-x-2 ${isActive ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white bg-slate-100 dark:bg-slate-800'}">
+                        <i class="fa-solid ${cat.icon}"></i>
+                        <span>${cat.name}</span>
+                    </button>
+                `;
+            });
+
+            const cat = pythonChallenges[state.activePyChallengeIdx];
+            const content = document.getElementById('py-challenge-content');
+            content.innerHTML = `
+                <div class="mb-5">
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center">
+                        <i class="fa-solid ${cat.icon} text-blue-500 mr-2"></i> ${cat.name}
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">${cat.desc}</p>
+                </div>
+
+                <div class="space-y-4">
+                    ${cat.tasks.map(t => `
+                        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.diff.includes('Mini') ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'}">${t.diff}</span>
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">${t.title}</h4>
+                                </div>
+                                <button onclick="loadCodeToIde(${JSON.stringify(t.code).replace(/"/g, '&quot;')})" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg text-xs transition">
+                                    <i class="fa-solid fa-terminal mr-1"></i> Open in IDE
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 mb-2">${t.desc}</p>
+                            <pre class="bg-slate-950 text-slate-200 p-3 rounded-xl font-mono text-xs overflow-x-auto"><code>${t.code}</code></pre>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectPyChallenge(idx) {
+            state.activePyChallengeIdx = idx;
+            renderPythonChallenges();
+        }
+
+        /* ================= ENGLISH CHALLENGES RENDERING ================= */
+        function renderEnglishChallenges() {
+            const tabs = document.getElementById('eng-challenge-tabs');
+            tabs.innerHTML = '';
+
+            englishChallenges.forEach((cat, idx) => {
+                const isActive = idx === state.activeEngChallengeIdx;
+                tabs.innerHTML += `
+                    <button onclick="selectEngChallenge(${idx})" class="px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex items-center space-x-2 ${isActive ? 'bg-purple-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white bg-slate-100 dark:bg-slate-800'}">
+                        <i class="fa-solid ${cat.icon}"></i>
+                        <span>${cat.name}</span>
+                    </button>
+                `;
+            });
+
+            const cat = englishChallenges[state.activeEngChallengeIdx];
+            const content = document.getElementById('eng-challenge-content');
+            content.innerHTML = `
+                <div class="mb-5">
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center">
+                        <i class="fa-solid ${cat.icon} text-purple-500 mr-2"></i> ${cat.name}
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">${cat.desc}</p>
+                </div>
+
+                <div class="space-y-4">
+                    ${cat.tasks.map(t => `
+                        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300">${t.diff}</span>
+                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white">${t.title}</h4>
+                                </div>
+                                <button onclick="speakAudio('${t.prompt.replace(/'/g, "\\'")}')" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg text-xs transition flex items-center">
+                                    <i class="fa-solid fa-volume-high mr-1"></i> Listen
+                                </button>
+                            </div>
+                            <div class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 italic">
+                                "${t.prompt}"
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectEngChallenge(idx) {
+            state.activeEngChallengeIdx = idx;
+            renderEnglishChallenges();
+        }
+
+        /* ================= RESOURCE VAULT RENDERING ================= */
+        function switchResourceTab(tab) {
+            state.activeResourceTab = tab;
+            document.querySelectorAll('[id^="res-tab-"]').forEach(b => {
+                b.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 dark:text-slate-400 hover:text-purple-600";
+            });
+            document.getElementById(`res-tab-${tab}`).className = "px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white dark:bg-slate-700 text-purple-600 dark:text-white shadow-sm";
+            document.getElementById('resource-search').value = '';
+            renderResourceVault();
+        }
+
+        function handleResourceSearch() {
+            const query = document.getElementById('resource-search').value.toLowerCase().trim();
+            renderResourceVault(query);
+        }
+
+        function renderResourceVault(search = '') {
+            const content = document.getElementById('resource-vault-content');
+            const tab = state.activeResourceTab;
+
+            if (tab === 'verbs') {
+                let filtered = verbs99List;
+                if (search) filtered = verbs99List.filter(v => v.v1.toLowerCase().includes(search) || v.v2.toLowerCase().includes(search) || v.v3.toLowerCase().includes(search));
+
+                content.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-bold text-base text-slate-900 dark:text-white">99 Verbs (V1, V2, V3 Forms)</h3>
+                            <p class="text-xs text-slate-400">Click any row or speaker to hear clear pronunciation.</p>
+                        </div>
+                        <span class="text-xs font-bold text-purple-600">${filtered.length} Verbs</span>
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[500px]">
+                        <table class="w-full text-left text-xs">
+                            <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                                <tr>
+                                    <th class="p-2.5">#</th>
+                                    <th class="p-2.5">V1 (Present)</th>
+                                    <th class="p-2.5">V2 (Past)</th>
+                                    <th class="p-2.5">V3 (Past Participle)</th>
+                                    <th class="p-2.5 text-right">Listen</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                ${filtered.map(v => `
+                                    <tr onclick="speakAudio('${v.v1}, ${v.v2}, ${v.v3}')" class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition">
+                                        <td class="p-2.5 text-slate-400 font-mono">${v.id}</td>
+                                        <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400">${v.v1}</td>
+                                        <td class="p-2.5 font-bold text-purple-600 dark:text-purple-400">${v.v2}</td>
+                                        <td class="p-2.5 font-bold text-emerald-600 dark:text-emerald-400">${v.v3}</td>
+                                        <td class="p-2.5 text-right">
+                                            <button class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-purple-600"><i class="fa-solid fa-volume-high text-[10px]"></i></button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (tab === 'sentences') {
+                let filtered = dailySentences;
+                if (search) filtered = dailySentences.filter(s => s.toLowerCase().includes(search));
+
+                content.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white">100 Daily Life Sentences</h3>
+                        <span class="text-xs font-bold text-purple-600">${filtered.length} Phrases</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[500px] overflow-y-auto">
+                        ${filtered.map(s => `
+                            <div onclick="speakAudio('${s.replace(/'/g, "\\'")}')" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 hover:border-purple-400 cursor-pointer transition flex items-center justify-between group">
+                                <span class="text-xs text-slate-800 dark:text-slate-200 font-medium">${s}</span>
+                                <i class="fa-solid fa-volume-high text-[10px] text-slate-400 group-hover:text-purple-500"></i>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tab === 'tenses') {
+                let filtered = tensesMatrix;
+                if (search) filtered = tensesMatrix.filter(t => t.name.toLowerCase().includes(search) || t.formula.toLowerCase().includes(search));
+
+                content.innerHTML = `
+                    <div class="mb-4">
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white">14 Tenses Matrix & Formulas</h3>
+                        <p class="text-xs text-slate-400">Complete structural matrix with programming context examples.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-h-[500px] overflow-y-auto">
+                        ${filtered.map(t => `
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 uppercase">Tense #${t.num}</span>
+                                        <span class="font-mono text-xs px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold">${t.formula}</span>
+                                    </div>
+                                    <h4 class="font-black text-sm text-slate-900 dark:text-white">${t.name}</h4>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300 italic mt-2">"${t.ex}"</p>
+                                </div>
+                                <button onclick="speakAudio('${t.ex.replace(/'/g, "\\'")}')" class="mt-3 text-[11px] font-bold text-purple-600 dark:text-purple-400 flex items-center hover:underline self-start">
+                                    <i class="fa-solid fa-volume-high mr-1"></i> Speak Example
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tab === 'rules') {
+                content.innerHTML = `
+                    <div class="mb-4">
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white">Subject-Verb Agreement Rules</h3>
+                        <p class="text-xs text-slate-400">Master when to use singular vs plural auxiliary verbs.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        ${englishRules.map(r => `
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+                                <h4 class="font-black text-sm text-purple-600 dark:text-purple-400 mb-2 pb-1 border-b border-slate-200 dark:border-slate-700">${r.id}. ${r.title}</h4>
+                                <ul class="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 font-medium">
+                                    ${r.items.map(it => `
+                                        <li class="flex items-center space-x-2">
+                                            <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
+                                            <span>${it}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tab === 'intro') {
+                content.innerHTML = `
+                    <div class="mb-4">
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white">12 Words to Introduce Yourself</h3>
+                        <p class="text-xs text-slate-400">Simple words. Big impact.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-h-[500px] overflow-y-auto">
+                        ${introWords.map(w => `
+                            <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-bold">${w.id}</span>
+                                    <h4 class="font-black text-xs text-slate-900 dark:text-white">${w.word}</h4>
+                                </div>
+                                <ul class="space-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+                                    ${w.cues.map(c => `<li>• ${c}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        /* ================= IDE & TERMINAL RUNNER ================= */
+        function toggleIdeMode(mode) {
+            const btnEditor = document.getElementById('btn-ide-editor');
+            const btnTutor = document.getElementById('btn-ide-tutor');
+            const wsSplit = document.getElementById('ide-workspace-split');
+            const wsTutor = document.getElementById('ide-workspace-tutor');
+
+            if (mode === 'editor') {
+                btnEditor.className = "px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition";
+                btnTutor.className = "px-3 py-1 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-300 transition flex items-center";
+                wsSplit.classList.remove('hidden');
+                wsTutor.classList.add('hidden');
+            } else {
+                btnTutor.className = "px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition flex items-center";
+                btnEditor.className = "px-3 py-1 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-300 transition";
+                wsSplit.classList.add('hidden');
+                wsTutor.classList.remove('hidden');
+            }
+        }
+
+        function loadCodeToIde(code) {
+            document.getElementById('live-code-input').value = code;
+            switchMainTab('compiler');
+            toggleIdeMode('editor');
+            showToast("Code loaded into IDE!");
+        }
+
+        function executePythonCode() {
+            const code = document.getElementById('live-code-input').value;
+            const terminal = document.getElementById('live-terminal-out');
+
+            if (!code.trim()) {
+                terminal.innerHTML += `<div class="text-slate-500 mt-2">>>> [Empty script: nothing to run]</div>`;
+                return;
+            }
+
+            terminal.innerHTML += `<div class="text-slate-400 mt-2">>>> python main.py</div>`;
+
+            setTimeout(() => {
+                let stdout = [];
+                const lines = code.split('\n');
+
+                try {
+                    lines.forEach(line => {
+                        const trimmed = line.trim();
+                        if (trimmed.startsWith('#') || !trimmed) return;
+
+                        const printMatch = trimmed.match(/^print\((.*)\)$/);
+                        if (printMatch) {
+                            let content = printMatch[1];
+                            if (content.startsWith('f"') || content.startsWith("f'")) {
+                                content = content.substring(2, content.length - 1);
+                                content = content.replace(/\{name\}/g, state.user)
+                                                 .replace(/\{user_lang\.upper\(\)\}/g, "PYTHON")
+                                                 .replace(/\{age\}/g, "24")
+                                                 .replace(/\{user\}/g, "Jordan");
+                            } else if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
+                                content = content.substring(1, content.length - 1);
+                            }
+                            stdout.push(content);
+                        }
+                    });
+
+                    if (stdout.length > 0) {
+                        terminal.innerHTML += `<div class="text-emerald-400">${stdout.join('<br>')}</div>`;
+                    } else {
+                        terminal.innerHTML += `<div class="text-slate-400 italic">[Process finished with exit code 0. No stdout output.]</div>`;
+                    }
+                } catch (err) {
+                    terminal.innerHTML += `<div class="text-rose-400">Traceback (most recent call last):<br>${err.message}</div>`;
+                }
+
+                terminal.scrollTop = terminal.scrollHeight;
+                showToast("Code executed successfully!");
+            }, 250);
+        }
+
+        function clearTerminal() {
+            document.getElementById('live-terminal-out').innerHTML = `<div class="text-slate-500">>>> Terminal cleared. Ready to execute code.</div>`;
+        }
+
+        function copyTerminal() {
+            const txt = document.getElementById('live-terminal-out').innerText;
+            const el = document.createElement('textarea');
+            el.value = txt;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast("Terminal text copied!");
+        }
+
+        function speakAudio(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                utter.rate = 0.95;
+                window.speechSynthesis.speak(utter);
+            } else {
+                showToast("Web Speech API not supported on this device.");
+            }
+        }
+
+        function speakConsoleOutput() {
+            const txt = document.getElementById('live-terminal-out').innerText.replace(/>>>/g, '');
+            if (txt.trim()) speakAudio(txt);
+        }
+
+        /* ================= GEMINI AI INTEGRATION ================= */
+        async function queryGemini(systemPrompt, userPrompt, retries = 3, delay = 1000) {
+            const apiKey = "";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (res.status === 429) {
+                        await new Promise(r => setTimeout(r, delay * Math.pow(2, i)));
+                        continue;
+                    }
+                    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+
+                    const data = await res.json();
+                    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+                } catch (e) {
+                    if (i === retries - 1) return "Could not connect to Gemini service. Please try again.";
+                    await new Promise(r => setTimeout(r, delay * Math.pow(2, i)));
+                }
+            }
+        }
+
+        async function reviewCodeWithGemini() {
+            const code = document.getElementById('live-code-input').value;
+            const terminal = document.getElementById('live-terminal-out');
+            const btn = document.getElementById('btn-ai-review');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Reviewing...';
+            terminal.innerHTML += `<div class="text-amber-400 mt-2"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Analyzing Python code with Gemini AI...</div>`;
+            terminal.scrollTop = terminal.scrollHeight;
+
+            const sys = "You are an expert Python coach. Review the provided Python code for bugs, PEP 8 styling, and offer concise bulleted improvements.";
+            const ans = await queryGemini(sys, `Review this Python script:\n\`\`\`python\n${code}\n\`\`\``);
+
+            terminal.innerHTML += `<div class="mt-2 p-3 bg-amber-950/40 border border-amber-800/40 rounded-xl text-amber-200 text-xs whitespace-pre-wrap"><strong class="text-amber-400 block mb-1">AI Code Review:</strong>${ans}</div>`;
+            terminal.scrollTop = terminal.scrollHeight;
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles text-amber-400 mr-1"></i> AI Review';
+        }
+
+        async function sendTutorMessage() {
+            const input = document.getElementById('tutor-prompt-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chat = document.getElementById('tutor-chat-box');
+            chat.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none text-xs sm:text-sm max-w-[85%]">${msg}</div>
+                </div>
+            `;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            const loadId = 'load-' + Date.now();
+            chat.innerHTML += `
+                <div id="${loadId}" class="flex items-start space-x-2">
+                    <div class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs flex-shrink-0"><i class="fa-solid fa-robot fa-spin"></i></div>
+                    <div class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl text-xs text-slate-400 italic">Thinking...</div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+
+            const sys = "You are a bilingual tutor for Python programming and English language learning. Answer questions clearly with code examples or sentence templates.";
+            const ans = await queryGemini(sys, msg);
+
+            const loadEl = document.getElementById(loadId);
+            if (loadEl) loadEl.remove();
+
+            chat.innerHTML += `
+                <div class="flex items-start space-x-2">
+                    <div class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-xs sm:text-sm text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 max-w-[85%] whitespace-pre-wrap">${ans}</div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function clearTutorChat() {
+            document.getElementById('tutor-chat-box').innerHTML = `
+                <div class="flex items-start space-x-2">
+                    <div class="w-7 h-7 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-xs text-slate-500 border border-slate-200 dark:border-slate-700">Chat reset. Ask any question about Python or English!</div>
+                </div>
+            `;
+        }
+
+        /* ================= AUTHENTICATION MODAL ================= */
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.replace('hidden', 'flex');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.replace('flex', 'hidden');
+        }
+
+        function saveUserProfile() {
+            const val = document.getElementById('auth-user-name').value.trim();
+            if (val) {
+                state.user = val;
+                saveState();
+                updateAuthHeader();
+                closeAuthModal();
+                showToast(`Welcome, ${val}!`);
+            }
+        }
+
+        function simulateGoogleLogin() {
+            state.user = "Google Learner";
+            saveState();
+            updateAuthHeader();
+            closeAuthModal();
+            showToast("Signed in with Google!");
+        }
+
+        function updateAuthHeader() {
+            const container = document.getElementById('auth-header-btn');
+            if (state.user && state.user !== 'Learner') {
+                container.innerHTML = `
+                    <div onclick="openAuthModal()" class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                        <div class="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center text-[10px] font-bold">
+                            ${state.user.charAt(0).toUpperCase()}
+                        </div>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${state.user}</span>
+                    </div>
+                `;
+            }
+        }
+
+        window.onload = function() {
+            initApp();
+        };
+    </script>
 </body>
 </html>
